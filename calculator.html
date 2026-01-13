@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <title>Calculator de costuri</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <h1>Calculator de costuri</h1>
+  <nav>
+    <ul>
+      <li><a href="index.html">Pagina principala</a></li>
+      <li><a href="destinatii.html">Destinatii</a></li>
+      <li><a href="cultura.html">Cultura</a></li>
+      <li><a href="natura.html">Natura</a></li>
+      <li><a href="atractii.html">Atractii turistice</a></li>
+      <li><a href="galerie.html">Galerie foto</a></li>
+      <li><a href="calculator.html">Calculator de costuri</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+<section>
+  <h2>Calculator pentru călătorii</h2>
+
+  <h3>Costuri de hotel</h3>
+  <input type="number" id="days" placeholder="Număr de zile">
+  <input type="number" id="dailyCost" placeholder="Cost pe zi (lei)">
+
+  <h3>Transport</h3>
+  <label for="transport">Alege tipul de transport:</label>
+  <select id="transport">
+    <option value="car">Mașină personală</option>
+    <option value="bus">Autobuz</option>
+    <option value="plane">Avion</option>
+  </select>
+
+  <div id="carOptions" style="margin-top:10px;">
+    <input type="number" id="distance" placeholder="Distanța (km)">
+    <input type="number" id="consumption" placeholder="Consum (l/100km)">
+    <input type="number" id="fuelPrice" placeholder="Prețul benzinei (lei/l)">
+  </div>
+
+  <div id="busOptions" style="display:none; margin-top:10px;">
+    <input type="number" id="busPrice" placeholder="Preț bilet autobuz (lei)">
+  </div>
+
+  <div id="planeOptions" style="display:none; margin-top:10px;">
+    <input type="number" id="planePrice" placeholder="Preț bilet avion (lei)">
+  </div>
+
+  <button onclick="calculateTotal()">Calculează total</button>
+
+  <p id="result">Total: —</p>
+
+</section>
+</main>
+
+<script>
+document.getElementById('transport').addEventListener('change', function() {
+  const val = this.value;
+
+  document.getElementById('carOptions').style.display = val === 'car' ? 'block' : 'none';
+  document.getElementById('busOptions').style.display = val === 'bus' ? 'block' : 'none';
+  document.getElementById('planeOptions').style.display = val === 'plane' ? 'block' : 'none';
+});
+
+function calculateTotal() {
+  const days = Number(document.getElementById('days').value);
+  const dailyCost = Number(document.getElementById('dailyCost').value);
+  const transport = document.getElementById('transport').value;
+
+  let transportCost = 0;
+
+  if (transport === 'car') {
+    const distance = Number(document.getElementById('distance').value);
+    const consumption = Number(document.getElementById('consumption').value);
+    const fuelPrice = Number(document.getElementById('fuelPrice').value);
+
+    transportCost = (distance / 100) * consumption * fuelPrice;
+  }
+
+  if (transport === 'bus') {
+    transportCost = Number(document.getElementById('busPrice').value);
+  }
+
+  if (transport === 'plane') {
+    transportCost = Number(document.getElementById('planePrice').value);
+  }
+
+  const accommodationCost = days * dailyCost;
+  const total = accommodationCost + transportCost;
+
+  document.getElementById('result').innerText =
+    `Total: ${total.toFixed(2)} lei`;
+}
+</script>
+
+<footer>
+  <p>© 2025 Proiect Locuri Fascinante</p>
+</footer>
+
+</body>
+</html>
